@@ -33,7 +33,6 @@ int font[FONT_SIZE][SPRITE_SIZE] = {
     {0xF0, 0x80, 0xF0, 0x80, 0x80}, // F
 };
 
-typedef uint16_t* stack;
 
 typedef struct Chip8{
     uint8_t RAM[MEM_SIZE];
@@ -43,8 +42,11 @@ typedef struct Chip8{
     uint8_t sound_timer;
     uint16_t I;
     uint16_t PC;
-    uint16_t SP;
-    stack chip8_stack;
+    int SP;
+    uint16_t* chip8_stack;
 }Chip8;
+
+void push(Chip8* chip8, uint16_t value);
+uint16_t pop(Chip8* chip8);
 
 #endif // __CHIP8_H__

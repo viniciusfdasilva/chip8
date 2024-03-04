@@ -24,7 +24,7 @@
     extern void __9XY0(Chip8 *chip8, uint8_t x, uint8_t y);
     extern void __ANNN(Chip8 *chip8, uint8_t nnn);
     extern void __BNNN(Chip8 *chip8, uint8_t nnn);
-    extern void __CXNN(Chip8 *chip8, uint8_t nn);
+    extern void __CXNN(Chip8 *chip8, uint8_t x, uint8_t nn);
     extern void __DXYN(Chip8 *chip8, uint8_t x, uint8_t y, uint8_t n);
     extern void __EX9E(Chip8 *chip8, uint8_t x);
     extern void __EXA1(Chip8 *chip8, uint8_t x);

@@ -12,9 +12,23 @@ Chip8 *init_cpu()
     chip8->sound_timer = 0x00;
     chip8->PC          = PROGRAM_ADDRESS;
     
-    chip8->chip8_stack = (stack)malloc(STACK_SIZE*sizeof(stack));
+    chip8->chip8_stack = (uint16_t*)malloc(STACK_SIZE*sizeof(uint16_t));
 
     return chip8;
+}
+
+void push(Chip8* chip8, uint16_t value)
+{
+    chip8->chip8_stack[chip8->SP++] = value;
+}
+
+uint16_t pop(Chip8* chip8)
+{
+    if(chip8->PC > 0){
+        return chip8->chip8_stack[--chip8->SP];
+    }else{
+        perror("Stack is empty!");
+    }
 }
 
 void start_cpu(Chip8 *chip8, uint8_t instructions[], int size)
@@ -69,7 +83,6 @@ void run(Chip8 *chip8, uint16_t instruction)
             
                 default:
                     panic("Invalid Instruction!");
-                    break;
             }
 
             break;
@@ -136,7 +149,6 @@ void run(Chip8 *chip8, uint16_t instruction)
 
                 default:
                     panic("Invalid Instruction!");
-                    break;
             }
 
             break;
@@ -168,7 +180,6 @@ void run(Chip8 *chip8, uint16_t instruction)
 
                 default:
                     panic("Invalid Instruction!");
-                    break;
             }
 
             break;
@@ -204,11 +215,13 @@ void run(Chip8 *chip8, uint16_t instruction)
                     break;
 
                 default:
-                    panic("Invalid Instruction!")
-                    break;
+                    panic("Invalid Instruction!");
             }
-            
+
             break;
+
+        default:
+            panic("Invalid Instruction!");
     }
 
 }
