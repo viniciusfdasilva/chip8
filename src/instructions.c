@@ -1,7 +1,7 @@
 #include "../include/instructions.h"
 
 #include <stdint.h>
-#include<stdlib.h>
+#include <stdlib.h>
 
 void __00E0(Chip8 *chip8)
 {
@@ -129,37 +129,55 @@ void __CXNN(Chip8 *chip8, uint8_t x, uint8_t nn)
 
 void __DXYN(Chip8 *chip8, uint8_t x, uint8_t y, uint8_t n)
 {
+    uint8_t x_coord = (chip8->V[x] % DISPLAY_WIDTH);
+    uint8_t y_coord = (chip8->V[y] % DISPLAY_HEIGHT);
+    chip8->V[F] = 0;
+
+    for(int i = 0; i < n; i++)
+    {
+        uint8_t pixel = chip8->RAM[chip8->I + n];
+
+        for(int j = 0; j < 8; j++)
+        {
+            if(pixel == 1 && chip8->display[y_coord + i][x_coord + j] == 1)
+            {
+                chip8->display[y_coord + i][x_coord + j] == 0;
+                chip8->V[F] = 1;
+            }
+        }
+    }
+
 
 }
 
 void __EX9E(Chip8 *chip8, uint8_t x)
 {
-
+    if(chip8->key == chip8->V[x]){ chip8->PC += 2; }
 }
 
 void __EXA1(Chip8 *chip8, uint8_t x)
 {
-
+    if(chip8->key != chip8->V[x]){ chip8->PC += 2; }
 }
 
 void __FX07(Chip8 *chip8, uint8_t x)
 {
-
+    chip8->V[x] = chip8->delay_timer;
 }
 
 void __FX0A(Chip8 *chip8, uint8_t x)
 {
-
+    chip8->V[x] = chip8->key;
 }
 
 void __FX15(Chip8 *chip8, uint8_t x)
 {
-
+    chip8->delay_timer = chip8->V[x];
 }
 
 void __FX18(Chip8 *chip8, uint8_t x)
 {
-
+    chip8->sound_timer = chip8->V[x];
 }
 
 void __FX1E(Chip8 *chip8, uint8_t x)
@@ -179,12 +197,18 @@ void __FX33(Chip8 *chip8, uint8_t x)
 
 void __FX55(Chip8 *chip8, uint8_t x)
 {
-
+    for(int i = 0; i <= x; i++)
+    {
+        chip8->RAM[chip8->I + i] = chip8->V[i];
+    }
 }
 
 void __FX65(Chip8 *chip8, uint8_t x)
 {
-
+    for(int i = 0; i <= x; i++)
+    {
+        chip8->V[i] = chip8->RAM[chip8->I + i];
+    }
 }
 
 
