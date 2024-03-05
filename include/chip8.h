@@ -13,6 +13,15 @@
 #define FONT_SIZE       16
 #define REG_SIZE        16
 #define STACK_SIZE      16
+#define KEYMAP_SIZE     16
+
+int keymap[KEYMAP_SIZE] = {
+    49, 50, 51,67,    // 1 2 3 C
+    52, 68, 55, 56,   // 4 5 6 D
+    57, 58, 59, 69, // 7 8 9 E
+    65,79, 66, 70,// A O B F
+};
+
 
 int font[FONT_SIZE][SPRITE_SIZE] = {
     {0xF0, 0x90, 0x90, 0x90, 0xF0}, // 0
@@ -33,7 +42,6 @@ int font[FONT_SIZE][SPRITE_SIZE] = {
     {0xF0, 0x80, 0xF0, 0x80, 0x80}, // F
 };
 
-typedef uint16_t* stack;
 
 typedef struct Chip8{
     uint8_t RAM[MEM_SIZE];
@@ -43,8 +51,14 @@ typedef struct Chip8{
     uint8_t sound_timer;
     uint16_t I;
     uint16_t PC;
-    uint16_t SP;
-    stack chip8_stack;
+    int SP;
+    uint16_t* chip8_stack;
+    uint8_t key;
 }Chip8;
+
+void push(Chip8* chip8, uint16_t value);
+uint16_t pop(Chip8* chip8);
+void set_key(Chip8 *chip8, uint8_t key_pressed);
+void reset_key(Chip8 *chip8);
 
 #endif // __CHIP8_H__
